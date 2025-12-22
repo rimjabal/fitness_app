@@ -1,0 +1,418 @@
+/* ========================================
+   FitTrack Intelligence - Moroccan Theme
+   ======================================== */
+
+/* Root Variables */
+:root {
+    --moroccan-primary: #1e40af;
+    --moroccan-secondary: #0ea5e9;
+    --moroccan-accent: #f59e0b;
+    --moroccan-success: #10b981;
+    --moroccan-danger: #ef4444;
+    --moroccan-gold: #fbbf24;
+    --moroccan-pattern: #dbeafe;
+    --moroccan-light: #f0f9ff;
+}
+
+/* Base Styles */
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    font-family: 'Cairo', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    min-height: 100vh;
+}
+
+/* Moroccan Patterns */
+.moroccan-pattern-top {
+    height: 8px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--moroccan-primary),
+        var(--moroccan-primary) 10px,
+        var(--moroccan-gold) 10px,
+        var(--moroccan-gold) 20px
+    );
+}
+
+.moroccan-pattern-footer {
+    height: 4px;
+    background: repeating-linear-gradient(
+        90deg,
+        var(--moroccan-secondary),
+        var(--moroccan-secondary) 10px,
+        var(--moroccan-accent) 10px,
+        var(--moroccan-accent) 20px
+    );
+    margin-bottom: 1rem;
+}
+
+.moroccan-pattern-circle {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--moroccan-primary), var(--moroccan-secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Navbar */
+.moroccan-navbar {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+.moroccan-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--moroccan-primary), var(--moroccan-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-text {
+    position: relative;
+}
+
+.moroccan-nav-link {
+    font-weight: 600;
+    color: var(--moroccan-primary) !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.moroccan-nav-link:hover {
+    background: var(--moroccan-pattern);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.moroccan-hero {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+    border-bottom: 4px solid var(--moroccan-gold);
+    position: relative;
+    overflow: hidden;
+}
+
+.moroccan-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(30, 64, 175, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.moroccan-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--moroccan-primary);
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Cards */
+.moroccan-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.moroccan-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--moroccan-primary), var(--moroccan-secondary), var(--moroccan-gold));
+}
+
+.moroccan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card {
+    position: relative;
+    padding-top: 2rem;
+}
+
+.card-icon {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.calories-icon {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.weight-icon {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.progress-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* Buttons */
+.moroccan-btn-primary {
+    background: linear-gradient(135deg, var(--moroccan-primary), var(--moroccan-secondary));
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+}
+
+.moroccan-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+}
+
+.moroccan-btn-success {
+    background: linear-gradient(135deg, var(--moroccan-success), #059669);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.moroccan-btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Table */
+.moroccan-table {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.moroccan-table thead th {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: var(--moroccan-primary);
+    font-weight: 700;
+    border: none;
+    padding: 1rem;
+}
+
+.moroccan-table tbody tr {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.moroccan-table tbody tr:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.moroccan-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border: none;
+}
+
+/* Objective Cards */
+.objective-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--moroccan-primary);
+}
+
+.objective-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.objective-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--moroccan-pattern);
+}
+
+.objective-header h5 {
+    margin: 0;
+    color: var(--moroccan-primary);
+    font-weight: 700;
+}
+
+.goal-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--moroccan-secondary);
+}
+
+/* Modal */
+.moroccan-modal .modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.moroccan-modal .modal-header {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border-radius: 16px 16px 0 0;
+}
+
+.moroccan-modal .modal-title {
+    color: var(--moroccan-primary);
+    font-weight: 700;
+}
+
+.moroccan-modal .form-label {
+    color: var(--moroccan-primary);
+    font-weight: 600;
+}
+
+.moroccan-modal .form-control,
+.moroccan-modal .form-select {
+    border: 2px solid var(--moroccan-pattern);
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.moroccan-modal .form-control:focus,
+.moroccan-modal .form-select:focus {
+    border-color: var(--moroccan-secondary);
+    box-shadow: 0 0 0 0.2rem rgba(14, 165, 233, 0.25);
+}
+
+/* Macros Preview */
+.macros-preview {
+    border: 2px dashed var(--moroccan-secondary);
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe) !important;
+}
+
+.macro-item {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.macro-item i {
+    margin-right: 0.5rem;
+}
+
+.macro-item span {
+    color: var(--moroccan-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+/* Footer */
+.moroccan-footer {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: white;
+    margin-top: 5rem;
+}
+
+/* Badges */
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.moroccan-card {
+    animation: slideInUp 0.5s ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .moroccan-hero {
+        padding: 2rem 0;
+    }
+    
+    .moroccan-title {
+        font-size: 2rem;
+    }
+    
+    .moroccan-pattern-circle {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .stat-card .display-4 {
+        font-size: 2.5rem;
+    }
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}

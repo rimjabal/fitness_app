@@ -1,0 +1,1051 @@
+@{
+    ViewData["Title"] = "Tableau de Bord";
+}
+
+<!-- Hero Section -->
+<div class="moroccan-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 moroccan-title">
+                  
+                    Bienvenue sur FitTrack
+                </h1>
+                <p class="lead mt-3">Votre compagnon intelligent pour une nutrition équilibrée et des objectifs atteints</p>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="moroccan-pattern-circle">
+                    <i class="fas fa-heartbeat fa-5x text-white"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard Cards -->
+<div class="container my-5">
+    <!-- Statistics Row -->
+    <div class="row g-4 mb-5">
+        <!-- Today's Calories -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon calories-icon">
+                    <i class="fas fa-fire fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Calories Aujourd'hui</h6>
+                    <h2 class="display-4 fw-bold text-primary mb-0">@ViewBag.TodayCalories</h2>
+                    <p class="small text-muted mb-0">kcal consommées</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Weight -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon weight-icon">
+                    <i class="fas fa-weight fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Poids Actuel</h6>
+                    <h2 class="display-4 fw-bold text-success mb-0">@ViewBag.CurrentWeight</h2>
+                    <p class="small text-muted mb-0">kg</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals Progress -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon progress-icon">
+                    <i class="fas fa-trophy fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Objectifs Atteints</h6>
+                    <h2 class="display-4 fw-bold text-warning mb-0">@ViewBag.ProgressPercentage%</h2>
+                    <p class="small text-muted mb-0">
+                        Objectif: @ViewBag.GoalWeight kg
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Analytics Row -->
+    <div class="row g-4 mb-5">
+        <!-- Streak Counter -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <i class="fas fa-fire fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Série en Cours</h6>
+                    <h2 class="display-4 fw-bold mb-0" style="color: #f5576c;">@ViewBag.Streak</h2>
+                    <p class="small text-muted mb-0">jours consécutifs 🔥</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hydration Tracker -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <i class="fas fa-tint fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Hydratation</h6>
+                    <h3 class="fw-bold mb-2" style="color: #4facfe;">
+                        @ViewBag.TodayHydration ml / @ViewBag.HydrationGoal ml
+                    </h3>
+                    <div class="progress mb-2" style="height: 8px;">
+                        <div class="progress-bar" style="width: @(((decimal)ViewBag.TodayHydration / ViewBag.HydrationGoal) * 100)%; background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addWater(250)">
+                            <i class="fas fa-glass-water"></i> 250ml
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addWater(500)">
+                            <i class="fas fa-bottle-water"></i> 500ml
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="resetWater()" title="Réinitialiser">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weight Evolution Mini Chart -->
+        <div class="col-md-4">
+            <div class="moroccan-card stat-card">
+                <div class="card-icon weight-icon">
+                    <i class="fas fa-chart-line fa-2x"></i>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="text-muted mb-2">Évolution</h6>
+                    <h3 class="fw-bold text-success mb-0">@ViewBag.GoalWeight kg</h3>
+                    <p class="small text-muted mb-0">Objectif final</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nutrition Section -->
+    <section id="nutrition" class="mb-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="moroccan-card">
+                    <div class="card-header bg-transparent border-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">
+                                <i class="fas fa-utensils text-primary me-2"></i>
+                                Gestion Nutritionnelle
+                            </h3>
+                            <button class="btn moroccan-btn-primary" data-bs-toggle="modal" data-bs-target="#addMealModal">
+                                <i class="fas fa-plus me-2"></i>Ajouter un Repas
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.RecentMeals != null && ViewBag.RecentMeals.Count > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover moroccan-table">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fas fa-calendar me-2"></i>Date</th>
+                                            <th><i class="fas fa-drumstick-bite me-2"></i>Aliment</th>
+                                            <th><i class="fas fa-weight me-2"></i>Quantité</th>
+                                            <th><i class="fas fa-fire me-2"></i>Calories</th>
+                                            <th><i class="fas fa-dumbbell me-2"></i>Protéines</th>
+                                            <th><i class="fas fa-bread-slice me-2"></i>Glucides</th>
+                                            <th><i class="fas fa-oil-can me-2"></i>Lipides</th>
+                                            <th><i class="fas fa-cog me-2"></i>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var meal in ViewBag.RecentMeals)
+                                        {
+                                            <tr>
+                                                <td>@meal.Date.ToString("dd/MM HH:mm")</td>
+                                                <td><strong>@meal.Food?.Name</strong></td>
+                                                <td>@meal.WeightInGrams g</td>
+                                                <td><span class="badge bg-danger">@meal.Calories kcal</span></td>
+                                                <td><span class="badge bg-primary">@meal.Protein g</span></td>
+                                                <td><span class="badge bg-warning">@meal.Carbs g</span></td>
+                                                <td><span class="badge bg-info">@meal.Fat g</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary" 
+                                                            onclick="editMeal(@meal.Id, @meal.FoodId, @meal.WeightInGrams, '@meal.MealType')"
+                                                            title="Modifier">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <form asp-action="DeleteMeal" method="post" style="display: inline;" 
+                                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce repas?');">
+                                                        <input type="hidden" name="id" value="@meal.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-utensils fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Aucun repas enregistré aujourd'hui. Commencez à suivre votre nutrition!</p>
+                            </div>
+                        }
+
+                        <!-- Charts inside Nutrition Section -->
+                        <hr class="my-4">
+                        
+                        <!-- Macro Distribution & Weight Evolution -->
+                        <div class="row g-4 mt-3">
+                            <!-- Macro Distribution Chart -->
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded" style="background: #f8f9fa;">
+                                    <h6 class="text-muted mb-3 text-center">
+                                        <i class="fas fa-chart-pie me-2"></i>Distribution des Macros (Aujourd'hui)
+                                    </h6>
+                                    <canvas id="macroChart" height="200"></canvas>
+                                </div>
+                            </div>
+                            
+                            <!-- Weight Evolution Chart -->
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded" style="background: #f8f9fa;">
+                                    <h6 class="text-muted mb-3 text-center">
+                                        <i class="fas fa-chart-line me-2"></i>Évolution du Poids (30 jours)
+                                    </h6>
+                                    <canvas id="weightChart" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objectives Section -->
+    <section id="progression" class="mb-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="moroccan-card">
+                    <div class="card-header bg-transparent border-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">
+                                <i class="fas fa-bullseye text-success me-2"></i>
+                                Mes Objectifs
+                            </h3>
+                            <button class="btn moroccan-btn-success" data-bs-toggle="modal" data-bs-target="#addObjectiveModal">
+                                <i class="fas fa-plus me-2"></i>Nouvel Objectif
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.Objectives != null && ViewBag.Objectives.Count > 0)
+                        {
+                            <div class="row g-3">
+                                @foreach (var objective in ViewBag.Objectives)
+                                {
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="objective-card">
+                                            <div class="objective-header">
+                                                <h5>@objective.Title</h5>
+                                                <span class="badge @(objective.IsAchieved ? "bg-success" : "bg-primary")">
+                                                    @objective.Type
+                                                </span>
+                                            </div>
+                                            <div class="objective-body">
+                                                <div class="goal-value">
+                                                    <i class="fas fa-bullseye text-warning me-2"></i>
+                                                    <strong>@objective.GoalValue</strong>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                        @objective.StartDate.ToString("dd/MM/yyyy") → @objective.TargetDate.ToString("dd/MM/yyyy")
+                                                    </small>
+                                                </div>
+                                                @if (objective.IsAchieved)
+                                                {
+                                                    <div class="mt-2">
+                                                        <i class="fas fa-check-circle text-success me-1"></i>
+                                                        <small class="text-success">Atteint le @objective.AchievedDate?.ToString("dd/MM/yyyy")</small>
+                                                    </div>
+                                                }
+                                                <div class="mt-3 d-flex gap-2">
+                                                    <form asp-action="ToggleObjectiveStatus" method="post" style="flex: 1;">
+                                                        <input type="hidden" name="id" value="@objective.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-outline-@(objective.IsAchieved ? "warning" : "success") w-100">
+                                                            <i class="fas fa-@(objective.IsAchieved ? "undo" : "check")"></i>
+                                                            @(objective.IsAchieved ? "Réactiver" : "Marquer atteint")
+                                                        </button>
+                                                    </form>
+                                                    <button class="btn btn-sm btn-outline-primary" 
+                                                            onclick="editObjective(@objective.Id, '@objective.Title', '@objective.Type', @objective.GoalValue, '@objective.TargetDate.ToString("yyyy-MM-dd")', @objective.IsAchieved.ToString().ToLower())"
+                                                            title="Modifier">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <form asp-action="DeleteObjective" method="post" style="display: inline;" 
+                                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet objectif?');">
+                                                        <input type="hidden" name="id" value="@objective.Id" />
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-bullseye fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Aucun objectif défini. Créez votre premier objectif!</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Add Meal Modal -->
+<div class="modal fade" id="addMealModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content moroccan-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle text-primary me-2"></i>
+                    Ajouter un Repas
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="AddMeal" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-utensils me-2"></i>Aliment</label>
+                        <select class="form-select" id="foodSelect" name="foodId" required>
+                            <option value="">Sélectionner un aliment...</option>
+                            @if (ViewBag.AllFoods != null)
+                            {
+                                @foreach (var food in ViewBag.AllFoods)
+                                {
+                                    <option value="@food.Id" 
+                                            data-calories="@food.CaloriesPer100g" 
+                                            data-protein="@food.ProteinPer100g" 
+                                            data-carbs="@food.CarbsPer100g" 
+                                            data-fat="@food.FatPer100g">
+                                        @food.Name (@food.Category)
+                                    </option>
+                                }
+                            }
+                        </select>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                Vous ne trouvez pas votre aliment? 
+                                <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#addCustomFoodModal" data-bs-dismiss="modal">
+                                    <i class="fas fa-plus-circle me-1"></i>Ajouter un aliment personnalisé
+                                </a>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-weight me-2"></i>Quantité (grammes)</label>
+                        <input type="number" class="form-control" id="weightInput" name="weight" min="1" step="0.1" required>
+                        
+                        <!-- Common Portions Helper -->
+                        <div class="mt-2 p-3 bg-light rounded" id="portionHelper" style="display: none;">
+                            <small class="text-muted d-block mb-2"><i class="fas fa-info-circle me-1"></i>Portions courantes:</small>
+                            <div class="d-flex flex-wrap gap-2" id="portionButtons">
+                                <!-- Buttons will be added dynamically based on selected food -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-clock me-2"></i>Type de Repas</label>
+                        <select class="form-select" name="mealType" required>
+                            <option value="Petit-déjeuner">Petit-déjeuner</option>
+                            <option value="Déjeuner">Déjeuner</option>
+                            <option value="Dîner">Dîner</option>
+                            <option value="Collation">Collation</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Auto-calculated Macros -->
+                    <div class="macros-preview mt-4 p-3 bg-light rounded">
+                        <h6 class="mb-3"><i class="fas fa-calculator me-2"></i>Valeurs Nutritionnelles</h6>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="macro-item">
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <span id="calcCalories">0</span> kcal
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="macro-item">
+                                    <i class="fas fa-dumbbell text-primary"></i>
+                                    <span id="calcProtein">0</span> g protéines
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="macro-item">
+                                    <i class="fas fa-bread-slice text-warning"></i>
+                                    <span id="calcCarbs">0</span> g glucides
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="macro-item">
+                                    <i class="fas fa-oil-can text-info"></i>
+                                    <span id="calcFat">0</span> g lipides
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn moroccan-btn-primary">
+                        <i class="fas fa-save me-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Objective Modal -->
+<div class="modal fade" id="addObjectiveModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content moroccan-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-bullseye text-success me-2"></i>
+                    Nouvel Objectif
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="AddObjective" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-tag me-2"></i>Titre</label>
+                        <input type="text" class="form-control" name="title" placeholder="Ex: Perdre 5kg" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-list me-2"></i>Type d'Objectif</label>
+                        <select class="form-select" name="type" required>
+                            <option value="Poids">Poids</option>
+                            <option value="Calories">Calories</option>
+                            <option value="Protéines">Protéines</option>
+                            <option value="Masse Musculaire">Masse Musculaire</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-crosshairs me-2"></i>Valeur Cible</label>
+                        <input type="number" class="form-control" name="goalValue" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-calendar me-2"></i>Date Cible</label>
+                        <input type="date" class="form-control" name="targetDate" required>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn moroccan-btn-success">
+                        <i class="fas fa-save me-2"></i>Créer l'Objectif
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Meal Modal -->
+<div class="modal fade" id="editMealModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content moroccan-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-utensils text-primary me-2"></i>
+                    Modifier le Repas
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="UpdateMeal" method="post">
+                <input type="hidden" id="editMealId" name="id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-apple-alt me-2"></i>Aliment</label>
+                        <select class="form-select" id="editFoodId" name="foodId" required>
+                            @if (ViewBag.AllFoods != null)
+                            {
+                                @foreach (var food in ViewBag.AllFoods)
+                                {
+                                    <option value="@food.Id">@food.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-weight me-2"></i>Poids (grammes)</label>
+                        <input type="number" class="form-control" id="editWeightInGrams" name="weightInGrams" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-clock me-2"></i>Type de Repas</label>
+                        <select class="form-select" id="editMealType" name="mealType" required>
+                            <option value="Petit-déjeuner">Petit-déjeuner</option>
+                            <option value="Déjeuner">Déjeuner</option>
+                            <option value="Dîner">Dîner</option>
+                            <option value="Collation">Collation</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn moroccan-btn-success">
+                        <i class="fas fa-save me-2"></i>Sauvegarder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Objective Modal -->
+<div class="modal fade" id="editObjectiveModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content moroccan-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-bullseye text-success me-2"></i>
+                    Modifier l'Objectif
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="UpdateObjective" method="post">
+                <input type="hidden" id="editObjectiveId" name="id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-tag me-2"></i>Titre</label>
+                        <input type="text" class="form-control" id="editObjectiveTitle" name="title" placeholder="Ex: Perdre 5kg" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-list me-2"></i>Type d'Objectif</label>
+                        <select class="form-select" id="editObjectiveType" name="type" required>
+                            <option value="Poids">Poids</option>
+                            <option value="Calories">Calories</option>
+                            <option value="Protéines">Protéines</option>
+                            <option value="Masse Musculaire">Masse Musculaire</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-crosshairs me-2"></i>Valeur Cible</label>
+                        <input type="number" class="form-control" id="editObjectiveGoalValue" name="goalValue" step="0.1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-calendar me-2"></i>Date Cible</label>
+                        <input type="date" class="form-control" id="editObjectiveTargetDate" name="targetDate" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="editObjectiveIsAchieved" name="isAchieved">
+                        <label class="form-check-label" for="editObjectiveIsAchieved">
+                            <i class="fas fa-check-circle me-2"></i>Objectif Atteint
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn moroccan-btn-success">
+                        <i class="fas fa-save me-2"></i>Sauvegarder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Custom Food Modal -->
+<div class="modal fade" id="addCustomFoodModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content moroccan-modal">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="fas fa-apple-alt text-warning me-2"></i>
+                    Ajouter un Aliment Personnalisé
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="customFoodForm">
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <small>Entrez les valeurs nutritionnelles <strong>pour 100g</strong> de l'aliment</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-tag me-2"></i>Nom de l'aliment</label>
+                        <input type="text" class="form-control" id="customFoodName" required placeholder="Ex: Ma recette de smoothie">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-fire text-danger me-2"></i>Calories (kcal)</label>
+                            <input type="number" class="form-control" id="customCalories" min="0" step="0.1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-dumbbell text-primary me-2"></i>Protéines (g)</label>
+                            <input type="number" class="form-control" id="customProtein" min="0" step="0.1" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-bread-slice text-warning me-2"></i>Glucides (g)</label>
+                            <input type="number" class="form-control" id="customCarbs" min="0" step="0.1" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-oil-can text-info me-2"></i>Lipides (g)</label>
+                            <input type="number" class="form-control" id="customFat" min="0" step="0.1" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn moroccan-btn-primary" onclick="saveCustomFood()">
+                        <i class="fas fa-save me-2"></i>Créer et Utiliser
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Common portions database
+        const commonPortions = {
+            'Banane': [
+                { name: '1 petite banane', grams: 100 },
+                { name: '1 banane moyenne', grams: 120 },
+                { name: '1 grande banane', grams: 150 }
+            ],
+            'Poulet (Poitrine)': [
+                { name: '1 petit filet', grams: 100 },
+                { name: '1 filet moyen', grams: 150 },
+                { name: '1 grand filet', grams: 200 }
+            ],
+            'Riz Brun': [
+                { name: '1/2 tasse cuit', grams: 100 },
+                { name: '1 tasse cuit', grams: 200 },
+                { name: '1 bol', grams: 250 }
+            ],
+            'Œufs': [
+                { name: '1 œuf', grams: 50 },
+                { name: '2 œufs', grams: 100 },
+                { name: '3 œufs', grams: 150 }
+            ],
+            'Whey Protéine': [
+                { name: '1 scoop (30g)', grams: 30 },
+                { name: '1.5 scoops', grams: 45 },
+                { name: '2 scoops', grams: 60 }
+            ],
+            'Saumon': [
+                { name: '1 petit pavé', grams: 120 },
+                { name: '1 pavé moyen', grams: 150 },
+                { name: '1 grand pavé', grams: 200 }
+            ],
+            'Patate Douce': [
+                { name: '1 petite', grams: 100 },
+                { name: '1 moyenne', grams: 150 },
+                { name: '1 grande', grams: 250 }
+            ],
+            'Quinoa': [
+                { name: '1/2 tasse cuit', grams: 100 },
+                { name: '1 tasse cuit', grams: 185 },
+                { name: '1 bol', grams: 250 }
+            ],
+            'Avocat': [
+                { name: '1/4 avocat', grams: 40 },
+                { name: '1/2 avocat', grams: 80 },
+                { name: '1 avocat entier', grams: 160 }
+            ],
+            'Amandes': [
+                { name: '10 amandes', grams: 14 },
+                { name: '1 poignée (20)', grams: 28 },
+                { name: '30 amandes', grams: 42 }
+            ],
+            'Couscous': [
+                { name: '1/2 tasse cuit', grams: 100 },
+                { name: '1 tasse cuit', grams: 200 },
+                { name: '1 assiette', grams: 250 }
+            ],
+            'Yaourt Grec': [
+                { name: '1 petit pot', grams: 100 },
+                { name: '1 pot moyen', grams: 150 },
+                { name: '1 grand pot', grams: 200 }
+            ],
+            'Thon en Conserve': [
+                { name: '1 petite boîte', grams: 80 },
+                { name: '1 boîte moyenne', grams: 120 },
+                { name: '1 grande boîte', grams: 160 }
+            ],
+            'Pain Complet': [
+                { name: '1 tranche', grams: 30 },
+                { name: '2 tranches', grams: 60 },
+                { name: '3 tranches', grams: 90 }
+            ],
+            'Dattes Medjool': [
+                { name: '2 dattes', grams: 48 },
+                { name: '3 dattes', grams: 72 },
+                { name: '5 dattes', grams: 120 }
+            ]
+        };
+
+        // Show portion helper when food is selected
+        document.getElementById('foodSelect').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const foodName = selectedOption.text.split('(')[0].trim();
+            const portionHelper = document.getElementById('portionHelper');
+            const portionButtons = document.getElementById('portionButtons');
+            
+            // Clear previous buttons
+            portionButtons.innerHTML = '';
+            
+            // Check if this food has common portions
+            if (commonPortions[foodName]) {
+                portionHelper.style.display = 'block';
+                
+                // Create buttons for each portion
+                commonPortions[foodName].forEach(portion => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'btn btn-sm btn-outline-primary';
+                    btn.textContent = portion.name;
+                    btn.onclick = function() {
+                        document.getElementById('weightInput').value = portion.grams;
+                        calculateMacros();
+                    };
+                    portionButtons.appendChild(btn);
+                });
+            } else {
+                portionHelper.style.display = 'none';
+            }
+        });
+
+        // Real-time macro calculator
+        function calculateMacros() {
+            const foodSelect = document.getElementById('foodSelect');
+            const weightInput = document.getElementById('weightInput');
+            
+            const selectedOption = foodSelect.options[foodSelect.selectedIndex];
+            const weight = parseFloat(weightInput.value) || 0;
+            
+            if (selectedOption && weight > 0) {
+                const calories = parseFloat(selectedOption.dataset.calories) || 0;
+                const protein = parseFloat(selectedOption.dataset.protein) || 0;
+                const carbs = parseFloat(selectedOption.dataset.carbs) || 0;
+                const fat = parseFloat(selectedOption.dataset.fat) || 0;
+                
+                // Formula: (BaseValue / 100) * UserInputGrams
+                document.getElementById('calcCalories').textContent = Math.round((calories / 100) * weight * 10) / 10;
+                document.getElementById('calcProtein').textContent = Math.round((protein / 100) * weight * 10) / 10;
+                document.getElementById('calcCarbs').textContent = Math.round((carbs / 100) * weight * 10) / 10;
+                document.getElementById('calcFat').textContent = Math.round((fat / 100) * weight * 10) / 10;
+            } else {
+                document.getElementById('calcCalories').textContent = '0';
+                document.getElementById('calcProtein').textContent = '0';
+                document.getElementById('calcCarbs').textContent = '0';
+                document.getElementById('calcFat').textContent = '0';
+            }
+        }
+        
+        document.getElementById('foodSelect').addEventListener('change', calculateMacros);
+        document.getElementById('weightInput').addEventListener('input', calculateMacros);
+        
+        // Edit meal function
+        function editMeal(id, foodId, weightInGrams, mealType) {
+            // Populate the edit modal fields
+            document.getElementById('editMealId').value = id;
+            document.getElementById('editFoodId').value = foodId;
+            document.getElementById('editWeightInGrams').value = weightInGrams;
+            document.getElementById('editMealType').value = mealType;
+            
+            // Show the modal
+            var editModal = new bootstrap.Modal(document.getElementById('editMealModal'));
+            editModal.show();
+        }
+        
+        // Edit objective function
+        function editObjective(id, title, type, goalValue, targetDate, isAchieved) {
+            // Populate the edit modal fields
+            document.getElementById('editObjectiveId').value = id;
+            document.getElementById('editObjectiveTitle').value = title;
+            document.getElementById('editObjectiveType').value = type;
+            document.getElementById('editObjectiveGoalValue').value = goalValue;
+            
+            // Format date for input field (YYYY-MM-DD)
+            const date = new Date(targetDate);
+            const formattedDate = date.toISOString().split('T')[0];
+            document.getElementById('editObjectiveTargetDate').value = formattedDate;
+            
+            document.getElementById('editObjectiveIsAchieved').checked = isAchieved;
+            
+            // Show the modal
+            var editModal = new bootstrap.Modal(document.getElementById('editObjectiveModal'));
+            editModal.show();
+        }
+        
+        // Save custom food function
+        async function saveCustomFood() {
+            const name = document.getElementById('customFoodName').value;
+            const calories = document.getElementById('customCalories').value;
+            const protein = document.getElementById('customProtein').value;
+            const carbs = document.getElementById('customCarbs').value;
+            const fat = document.getElementById('customFat').value;
+            
+            if (!name || !calories || !protein || !carbs || !fat) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            try {
+                const response = await fetch('@Url.Action("AddCustomFood", "Dashboard")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: new URLSearchParams({
+                        name: name,
+                        calories: calories,
+                        protein: protein,
+                        carbs: carbs,
+                        fat: fat
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Close custom food modal
+                    var customFoodModal = bootstrap.Modal.getInstance(document.getElementById('addCustomFoodModal'));
+                    customFoodModal.hide();
+                    
+                    // Add new food to the dropdown
+                    const foodSelect = document.getElementById('foodSelect');
+                    const option = document.createElement('option');
+                    option.value = result.foodId;
+                    option.textContent = result.foodName + ' (Personnalisé)';
+                    option.dataset.calories = calories;
+                    option.dataset.protein = protein;
+                    option.dataset.carbs = carbs;
+                    option.dataset.fat = fat;
+                    option.selected = true;
+                    foodSelect.appendChild(option);
+                    
+                    // Show add meal modal
+                    var addMealModal = new bootstrap.Modal(document.getElementById('addMealModal'));
+                    addMealModal.show();
+                    
+                    // Clear custom food form
+                    document.getElementById('customFoodForm').reset();
+                    
+                    // Show success message
+                    alert('Aliment personnalisé créé avec succès!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Erreur lors de la création de l\'aliment');
+            }
+        }
+
+        // Hydration functions
+        async function addWater(ml) {
+            try {
+                const response = await fetch('@Url.Action("AddWater", "Dashboard")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ milliliters: ml })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function resetWater() {
+            if (confirm('Réinitialiser le compteur d\'eau pour aujourd\'hui?')) {
+                try {
+                    const response = await fetch('@Url.Action("ResetWater", "Dashboard")', {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        location.reload();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        }
+
+        // Weight Evolution Chart
+        @if (ViewBag.WeightHistory != null && ViewBag.WeightHistory.Count > 0)
+        {
+            var weightDates = new List<string>();
+            var weightValues = new List<decimal>();
+            foreach (var item in ViewBag.WeightHistory)
+            {
+                weightDates.Add(item.Date.ToString());
+                weightValues.Add(item.Weight);
+            }
+            <text>
+            const weightCtx = document.getElementById('weightChart').getContext('2d');
+            new Chart(weightCtx, {
+                type: 'line',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(weightDates)),
+                    datasets: [{
+                        label: 'Poids Actuel',
+                        data: @Html.Raw(Json.Serialize(weightValues)),
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Objectif',
+                        data: Array(@ViewBag.WeightHistory.Count).fill(@ViewBag.GoalWeight),
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Poids (kg)'
+                            }
+                        }
+                    }
+                }
+            });
+            </text>
+        }
+
+        // Macro Donut Chart
+        @if (ViewBag.TodayMacros != null)
+        {
+            <text>
+            const macroCtx = document.getElementById('macroChart').getContext('2d');
+            new Chart(macroCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Protéines', 'Glucides', 'Lipides'],
+                    datasets: [{
+                        data: [
+                            @(ViewBag.TodayMacros.TotalProtein * 4),
+                            @(ViewBag.TodayMacros.TotalCarbs * 4),
+                            @(ViewBag.TodayMacros.TotalFat * 9)
+                        ],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(255, 99, 132, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((context.parsed / total) * 100);
+                                    label += percentage + '% (' + Math.round(context.parsed) + ' kcal)';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            </text>
+        }
+        else
+        {
+            <text>
+            // Show placeholder for empty macro chart
+            const macroCtx = document.getElementById('macroChart').getContext('2d');
+            new Chart(macroCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Aucune donnée'],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ['rgba(200, 200, 200, 0.3)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+            </text>
+        }
+    </script>
+}

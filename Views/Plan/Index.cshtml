@@ -1,0 +1,396 @@
+@using FitTrack.Models
+@{
+    ViewData["Title"] = "Mon Programme Hebdomadaire";
+    var dietPlan = ViewBag.DietPlan as List<WeeklyDietPlan>;
+    var workoutPlan = ViewBag.WorkoutPlan as List<WeeklyWorkoutPlan>;
+    var user = ViewBag.User as ApplicationUser;
+}
+
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    .page-title {
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+    .page-subtitle {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+    .tab-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+    .tab-btn {
+        flex: 1;
+        min-width: 200px;
+        padding: 20px;
+        background: white;
+        border: 3px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+    }
+    .tab-btn:hover {
+        border-color: #667eea;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+    }
+    .tab-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #667eea;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .day-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s;
+    }
+    .day-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    .day-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+    }
+    .day-name {
+        font-size: 28px;
+        font-weight: 700;
+        color: #667eea;
+    }
+    .day-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .meal-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+    }
+    .meal-time {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .meal-description {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 15px;
+        font-style: italic;
+    }
+    .food-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .food-item {
+        padding: 10px;
+        background: white;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+    }
+    .meal-calories {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    .exercise-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 5px solid #764ba2;
+    }
+    .exercise-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .exercise-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #333;
+    }
+    .exercise-sets {
+        background: #764ba2;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .exercise-description {
+        color: #666;
+        font-size: 14px;
+    }
+    .workout-duration {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        color: #667eea;
+        font-weight: 600;
+    }
+    .rest-day {
+        text-align: center;
+        padding: 60px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 20px;
+    }
+    .rest-day h3 {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+    .rest-day p {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .stat-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+    }
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+    .user-info-box {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border: 2px solid #667eea;
+    }
+    .user-info-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 15px;
+    }
+    .user-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    .user-info-item {
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+    .user-info-label {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    .user-info-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+</style>
+
+<div class="page-header">
+    <h1 class="page-title">🎯 Mon Programme Hebdomadaire</h1>
+    <p class="page-subtitle">Plan personnalisé selon votre profil et vos objectifs</p>
+</div>
+
+<!-- User Info Box -->
+<div class="user-info-box">
+    <div class="user-info-title">📊 Votre Profil</div>
+    <div class="user-info-grid">
+        <div class="user-info-item">
+            <div class="user-info-label">Objectif</div>
+            <div class="user-info-value">@user?.FitnessGoal</div>
+        </div>
+        <div class="user-info-item">
+            <div class="user-info-label">Niveau d'activité</div>
+            <div class="user-info-value">@user?.ActivityLevel</div>
+        </div>
+        <div class="user-info-item">
+            <div class="user-info-label">Entraînements/semaine</div>
+            <div class="user-info-value">@user?.WorkoutsPerWeek séances</div>
+        </div>
+        <div class="user-info-item">
+            <div class="user-info-label">Calories quotidiennes</div>
+            <div class="user-info-value">@user?.DailyCalorieTarget cal</div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Buttons -->
+<div class="tab-buttons">
+    <button class="tab-btn active" onclick="showTab('nutrition')">
+        <div style="font-size: 32px; margin-bottom: 10px;">🥗</div>
+        <div>Plan Nutrition</div>
+    </button>
+    <button class="tab-btn" onclick="showTab('workout')">
+        <div style="font-size: 32px; margin-bottom: 10px;">💪</div>
+        <div>Plan Entraînement</div>
+    </button>
+</div>
+
+<!-- Nutrition Tab -->
+<div id="nutrition-tab" class="tab-content active">
+    @if (dietPlan != null)
+    {
+        foreach (var day in dietPlan)
+        {
+            <div class="day-card">
+                <div class="day-header">
+                    <div class="day-name">@day.Day</div>
+                    <div class="day-badge">
+                        @Math.Round(day.TotalCalories, 0) cal
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">@Math.Round(day.TotalProtein, 0)g</div>
+                        <div class="stat-label">Protéines</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">@Math.Round(day.TotalCarbs, 0)g</div>
+                        <div class="stat-label">Glucides</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">@Math.Round(day.TotalFat, 0)g</div>
+                        <div class="stat-label">Lipides</div>
+                    </div>
+                </div>
+
+                @foreach (var meal in day.Meals)
+                {
+                    <div class="meal-section">
+                        <div class="meal-time">@meal.MealTime</div>
+                        <div class="meal-description">@meal.Description</div>
+                        <ul class="food-list">
+                            @foreach (var food in meal.Foods)
+                            {
+                                <li class="food-item">@food</li>
+                            }
+                        </ul>
+                        <span class="meal-calories">~@Math.Round(meal.Calories, 0) cal</span>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+<!-- Workout Tab -->
+<div id="workout-tab" class="tab-content">
+    @if (workoutPlan != null)
+    {
+        foreach (var day in workoutPlan)
+        {
+            <div class="day-card">
+                <div class="day-header">
+                    <div class="day-name">@day.Day</div>
+                    @if (day.DurationMinutes > 0)
+                    {
+                        <div class="workout-duration">
+                            <span>⏱️</span>
+                            <span>@day.DurationMinutes minutes</span>
+                        </div>
+                    }
+                </div>
+
+                @if (day.WorkoutType == "Repos")
+                {
+                    <div class="rest-day">
+                        <h3>😴 Jour de Repos</h3>
+                        <p>La récupération est essentielle pour la croissance musculaire!</p>
+                        <p style="margin-top: 15px;">💆 Profitez-en pour vous étirer et bien dormir</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="day-badge" style="margin-bottom: 20px; display: inline-block;">@day.WorkoutType</div>
+                    
+                    @foreach (var exercise in day.Exercises)
+                    {
+                        <div class="exercise-card">
+                            <div class="exercise-header">
+                                <div class="exercise-name">@exercise.Emoji @exercise.Name</div>
+                                <div class="exercise-sets">@exercise.Sets</div>
+                            </div>
+                            <div class="exercise-description">@exercise.Description</div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+</div>
+
+<script>
+    function showTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        event.target.closest('.tab-btn').classList.add('active');
+    }
+</script>

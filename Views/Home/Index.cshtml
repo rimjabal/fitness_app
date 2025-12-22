@@ -1,0 +1,229 @@
+﻿@{
+    ViewData["Title"] = "FitTrack Intelligence - Votre Coach Nutrition & Sport";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        .btn-hero {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+        .btn-hero-primary {
+            background: white;
+            color: #667eea;
+        }
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .btn-hero-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-hero-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+        .features-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 100%;
+            margin-bottom: 30px;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        .feature-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .feature-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .feature-description {
+            color: #666;
+            font-size: 16px;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .cta-subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="hero-title">🏋️ FitTrack Intelligence</h1>
+                    <p class="hero-subtitle">
+                        Votre plateforme complète de nutrition et sport.<br />
+                        Suivez vos repas, calculez vos macros automatiquement, et atteignez vos objectifs!
+                    </p>
+                    <div>
+                        <a href="/Account/Register" class="btn btn-hero btn-hero-primary">
+                            Commencer gratuitement 🚀
+                        </a>
+                        <a href="/Account/Login" class="btn btn-hero btn-hero-secondary">
+                            Se connecter
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div style="font-size: 200px; text-align: center;">
+                        💪
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-size: 42px; font-weight: 700; color: #333;">Fonctionnalités Intelligentes</h2>
+                <p style="font-size: 18px; color: #666;">Tout ce dont vous avez besoin pour réussir</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🥗</div>
+                        <h3 class="feature-title">Base de Données Nutritionnelle</h3>
+                        <p class="feature-description">
+                            20+ aliments essentiels avec valeurs nutritionnelles complètes. 
+                            Des classiques marocains aux protéines modernes!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧮</div>
+                        <h3 class="feature-title">Calcul Automatique</h3>
+                        <p class="feature-description">
+                            Sélectionnez un aliment, entrez la quantité, et obtenez instantanément 
+                            les calories et macros. Aucun calcul manuel!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Tableau de Bord</h3>
+                        <p class="feature-description">
+                            Suivez vos calories quotidiennes, votre progression vers vos objectifs, 
+                            et visualisez votre parcours.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="feature-title">Objectifs Personnalisés</h3>
+                        <p class="feature-description">
+                            Définissez vos objectifs de poids, calories, ou protéines. 
+                            FitTrack vous aide à les atteindre!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">📈</div>
+                        <h3 class="feature-title">Suivi de Progression</h3>
+                        <p class="feature-description">
+                            Enregistrez votre poids, masse musculaire, et pourcentage de graisse. 
+                            Voyez vos résultats!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">🇲🇦</div>
+                        <h3 class="feature-title">Design Marocain</h3>
+                        <p class="feature-description">
+                            Interface élégante avec thème bleu-violet inspiré des couleurs du Maroc. 
+                            Simple et beau!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Prêt à transformer votre corps?</h2>
+            <p class="cta-subtitle">
+                Rejoignez FitTrack aujourd'hui et commencez votre parcours vers une meilleure santé!
+            </p>
+            <a href="/Account/Register" class="btn btn-hero btn-hero-primary" style="font-size: 20px;">
+                Créer mon compte gratuit 🎉
+            </a>
+        </div>
+    </section>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
